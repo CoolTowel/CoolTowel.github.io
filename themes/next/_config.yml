@@ -441,7 +441,7 @@ math:
 
 # Han Support
 # Dependencies: https://github.com/theme-next/theme-next-han
-han: false
+han: true
 
 # Pangu Support
 # Dependencies: https://github.com/theme-next/theme-next-pangu
