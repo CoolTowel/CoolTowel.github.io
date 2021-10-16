@@ -44,7 +44,7 @@ ICRS 中的坐标系统与赤道坐标系基本一致，重点在于如何选取
 
 <a title="By User Herbye (German Wikipedia). Designed by Dr. H. Sulzer (Original) [GFDL (http://www.gnu.org/copyleft/fdl.html) or CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0/)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:Praezession.svg"><img width="256" alt="Praezession" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Praezession.svg/256px-Praezession.svg.png"></a>
 
-<center><b>P 和 N 分别是进动与章动 </b><center>
+<center><b>P 和 N 分别是进动与章动 </b></center><br/>
 
 因此，ICRS 选择使用几乎 “恒久不动” 的河外天体作为参照物，这就是 ICRF（International Celestial Reference Frame）——国际天球参考框架。
 
@@ -54,7 +54,7 @@ ICRF 是一系列河外源的精确位置，这些源通常是遥远的类星体
 
 {% asset_img icrf2.png %}
 
-<center><b > 最新的 ICRF2 中射电源的分布 </b> <I > 来自：<a href:"http://hpiers.obspm.fr/icrs-pc/newwww/index.php">IERS ICRS Center</a></I> <center>
+<center><b > 最新的 ICRF2 中射电源的分布 </b> <I > 来自：<a href:"http://hpiers.obspm.fr/icrs-pc/newwww/index.php">IERS ICRS Center</a></I> </center><br/>
 
 不过，所有基于 VLBI 技术的结果都是在射电波段的，在其他的波段还需要其他的观测数据。在光学波段，ICRF 采用依巴谷星表（这是依巴谷空间望远镜的成果）作为其光学实现，并且通过一些观测手段，将其与 VLBI 的观测结果相联系，共同组成 ICRF。
 
@@ -70,7 +70,7 @@ ICRF 是一系列河外源的精确位置，这些源通常是遥远的类星体
 
 {% asset_img The_International_Celestial_Ref.gif %}
 
-<center> <I > 来自：<a href:"https://www.iers.org/IERS/EN/Science/ICRS/pole_and_right_ascensions_origin.html">www.iers.org/IERS/EN/Science/ICRS/pole_and_right_ascensions_origin.html</a></I> <center>
+<center> <I > 来自：<a href:"https://www.iers.org/IERS/EN/Science/ICRS/pole_and_right_ascensions_origin.html">www.iers.org/IERS/EN/Science/ICRS/pole_and_right_ascensions_origin.html</a></I> </center><br/>
 
 图中的大圈是 FK5 星表中极点位置的误差圈，mas 是单位：毫角秒。可见新老系统是一致兼容的，并且事实上，一般光学波段成像的误差也达不到毫角秒的量级。
 
