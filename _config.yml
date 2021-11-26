@@ -8,7 +8,12 @@ subtitle: ''
 description: ''
 keywords:
 author: CoolTowel
-language: en-US
+language: 
+  - zh-Hans
+  - zh-CN
+  - zh-HK
+  - zh-TW
+  - en
 timezone: ''
 
 # URL
@@ -28,7 +33,7 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: gallery/**
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -81,7 +86,7 @@ meta_generator: true
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
 ## updated_option supports 'mtime', 'date', 'empty'
-updated_option: 'mtime'
+updated_option: 'empty'
 
 # Pagination
 ## Set per_page to 0 to disable pagination

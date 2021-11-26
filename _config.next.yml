@@ -83,6 +83,7 @@ creative_commons:
 # External url should start with http:// or https://
 menu:
   home: / || fa fa-home
+  gallery: /gallery/ || fa fa-images
   about: /about/ || fa fa-user
   #tags: /tags/ || fa fa-tags
   categories: /categories/ || fa fa-th
@@ -237,7 +238,7 @@ post_meta:
   item_text: true
   created_at: true
   updated_at:
-    enable: true
+    enable: false
     another_day: true
   categories: true
 
