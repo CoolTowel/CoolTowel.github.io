@@ -1,6 +1,7 @@
 ---
 title: The Boy Who Cried Alien
 date: 2021-11-22 11:02:31
+categories: 天文
 tags:
     - ScienceJournalism
 ---
