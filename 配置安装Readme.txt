@@ -1,20 +1,13 @@
 
-除node外均同步至 source branch，无需备份。
 需要插件：
     hexo-deployer-git
         安装：npm install hexo-deployer-git --save
         随后还需在_config中修改参数，详见hexo文档
     hexo-optimize
     
-此外还对Next主题css文档做了一些更改，例如site-title的字号大小。
+此外还对Next主题做了一些更改，例如site-title的字号大小。
 
-    在 themes/next/source/css/_schemes/Pisces/_header.styl 文件中的 .site-meta 中添加 .site-title{} 设定值：
-    .site-meta {
-    padding: 20px 0;
-    .site-title {
-        font-size: 250%;
-    }
-    }
+    在 ./source/_data中添加styles.styl文件，并在 ./_config.next.yml 中 custom_file_path 项中添加该文件以生效。（styles.styl中的配置会覆盖.theme/next/source/css/文件夹中的配置)
 
 HEXO 及 NEXT 主题版本：（2021-11-27）
 
