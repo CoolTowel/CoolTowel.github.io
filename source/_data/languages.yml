@@ -1,0 +1,6 @@
+# language costumize 
+zh-CN:
+  # items
+  menu:
+    gallery: 相册
+      # the translation you perfer
