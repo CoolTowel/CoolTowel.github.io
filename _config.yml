@@ -135,3 +135,8 @@ filter_optimize:
   # set the priority of this plugin,
   # lower means it will be executed first, default of Hexo is 10
   priority: 12
+
+lazyload:
+  enable: true
+  onlypost: false
+  loadingImg: /uploads/loading.gif

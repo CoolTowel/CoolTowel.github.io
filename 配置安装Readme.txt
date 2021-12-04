@@ -1,9 +1,13 @@
 
 需要插件：
+
     hexo-deployer-git
         安装：npm install hexo-deployer-git --save
         随后还需在_config中修改参数，详见hexo文档
+    
     hexo-optimize
+
+    npm install hexo-lazyload-image --save
     
 此外还对Next主题做了一些更改，例如site-title的字号大小。
 

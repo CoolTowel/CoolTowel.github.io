@@ -38,8 +38,8 @@ custom_file_path:
 # Schemes
 # scheme: Muse
 # scheme: Mist
-scheme: Pisces
-#scheme: Gemini
+# scheme: Pisces
+scheme: Gemini
 
 # Dark Mode
 darkmode: false
@@ -448,7 +448,7 @@ font:
   # Font settings for posts (.post-body).
   posts:
     external: true
-    family:
+    family: STKaiti
 
   # Font settings for <code> and code blocks.
   codes:
