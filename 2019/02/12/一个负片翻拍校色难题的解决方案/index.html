@@ -1,0 +1,397 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300italic,400,400italic,700,700italic%7CLong+Cang:300,300italic,400,400italic,700,700italic%7CSTKaiti:300,300italic,400,400italic,700,700italic&amp;display=swap&amp;subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/all.min.css" integrity="sha256-xejo6yLi6vGtAjcMIsY8BHdKsLg7QynVlFMzdQgUuy8=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"cooltowel.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script>
+
+    <meta name="description" content="2021年更新:事实上这种方法并不真正的可靠，因为正确的去色罩的操作应当在线性空间完成，而非经过非线性映射后的普通的RGB空间进行。 自从我萌生了翻拍胶片的念头并付诸行动之后，就一直被一个问题所困扰——去色罩。在参考了众多大神的文章并实践之后，我终于摸索出了不错的校色方案来使得胶片翻拍成为可能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个负片翻拍校色难题的解决方案">
+<meta property="og:url" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="庭之野">
+<meta property="og:description" content="2021年更新:事实上这种方法并不真正的可靠，因为正确的去色罩的操作应当在线性空间完成，而非经过非线性映射后的普通的RGB空间进行。 自从我萌生了翻拍胶片的念头并付诸行动之后，就一直被一个问题所困扰——去色罩。在参考了众多大神的文章并实践之后，我终于摸索出了不错的校色方案来使得胶片翻拍成为可能。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E8%89%B2%E7%BD%A9.jpg">
+<meta property="og:image" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E5%AF%B9%E6%AF%94.jpg">
+<meta property="og:image" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E5%88%92%E5%88%86%E7%89%87%E5%9F%BA%E8%89%B2.jpg">
+<meta property="og:image" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E5%8F%8D%E7%9B%B8.jpg">
+<meta property="og:image" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E8%87%AA%E5%8A%A8%E6%9B%B2%E7%BA%BF.png">
+<meta property="og:image" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E6%9B%B2%E7%BA%BF.png">
+<meta property="og:image" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E6%9B%B2%E7%BA%BF%E8%B0%83%E6%95%B4.png">
+<meta property="og:image" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E8%89%B2%E5%BD%A9%E5%B9%B3%E8%A1%A1.jpg">
+<meta property="og:image" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E5%AE%8C%E6%88%90.jpg">
+<meta property="article:published_time" content="2019-02-12T22:11:00.000Z">
+<meta property="article:author" content="CoolTowel">
+<meta property="article:tag" content="胶片">
+<meta property="article:tag" content="校色">
+<meta property="article:tag" content="去色罩">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E8%89%B2%E7%BD%A9.jpg">
+
+
+<link rel="canonical" href="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/","path":"2019/02/12/一个负片翻拍校色难题的解决方案/","title":"一个负片翻拍校色难题的解决方案"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>一个负片翻拍校色难题的解决方案 | 庭之野</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">庭之野</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-gallery"><a href="/gallery/" rel="section"><i class="fa fa-images fa-fw"></i>相册</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%89%B2%E7%BD%A9"><span class="nav-number">1.</span> <span class="nav-text">什么是色罩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E5%9C%B0%E7%BF%BB%E6%8B%8D%E5%BA%95%E7%89%87"><span class="nav-number">2.</span> <span class="nav-text">正确地翻拍底片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A9%E7%94%A8PS%E6%B7%B7%E5%90%88%E6%A8%A1%E5%BC%8F%E2%80%9C%E5%88%92%E5%88%86%E2%80%9D%E5%8E%BB%E8%89%B2%E7%BD%A9"><span class="nav-number">3.</span> <span class="nav-text">利用PS混合模式“划分”去色罩</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CoolTowel" src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">CoolTowel</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CoolTowel" title="GitHub → https://github.com/CoolTowel" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/coooltowel" title="Instagram → https://www.instagram.com/coooltowel" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/uploads/loading.gif" data-original="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cooltowel.github.io/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="CoolTowel">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="庭之野">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden="" itemprop="post" itemscope="" itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="一个负片翻拍校色难题的解决方案 | 庭之野">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一个负片翻拍校色难题的解决方案
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-12 23:11:00" itemprop="dateCreated datePublished" datetime="2019-02-12T23:11:00+01:00">2019-02-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%91%84%E5%BD%B1/" itemprop="url" rel="index"><span itemprop="name">摄影</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><strong>2021年更新:事实上这种方法并不真正的可靠，因为正确的去色罩的操作应当在线性空间完成，而非经过非线性映射后的普通的RGB空间进行。</strong></p>
+<p>自从我萌生了翻拍胶片的念头并付诸行动之后，就一直被一个问题所困扰——<strong>去色罩</strong>。在参考了众多大神的文章并实践之后，我终于摸索出了不错的校色方案来使得胶片翻拍成为可能。<span id="more"></span></p>
+<h3 id="什么是色罩"><a href="#什么是色罩" class="headerlink" title="什么是色罩"></a>什么是色罩</h3><p><a target="_blank" rel="noopener" href="https://weibo.com/1927737112/AuraIcHbr?from=page_1005051927737112_profile&amp;wvr=6&amp;mod=weibotime&amp;type=comment#_rnd1550978116850">这篇微博</a>详细介绍了负片色罩的成因以及来由。简单来说是为了更好更准地记录色彩信息。但是这却给我们的翻拍工作带来了许多困难。</p>
+<img src="/uploads/loading.gif" data-original="/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E8%89%B2%E7%BD%A9.jpg" class="">
+
+<center><b>负片的翻拍</b></center><br>
+
+<p>色罩本质上讲和负片上其他的颜色一样，但是它所有地方保持一个恒定的值（在理想状况下）。所以我们能很简单地将其从底片中均匀地“减去”。但是在此之前，有一个关键的问题还需注意。</p>
+<h3 id="正确地翻拍底片"><a href="#正确地翻拍底片" class="headerlink" title="正确地翻拍底片"></a>正确地翻拍底片</h3><p>网上很多翻拍的教程告诉我们，翻拍时要向右曝光，这样才能榨干相机的动态范围。一开始我也是这样做的，但是这会引发一个巨大的问题——明明在扫描仪扫出来的图像上非常好用的去色罩方法失灵了。图像仍然蒙着一层蓝色，好像直接将负片反相一样，这时任你再调整三通道曲线或是色彩平衡，都无法很好地消除那一抹蓝色。</p>
+<img src="/uploads/loading.gif" data-original="/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E5%AF%B9%E6%AF%94.jpg" class="">
+
+<center><b>右图为向右曝光后，使用下文所述的方法去除色罩后的结果。左图曝光正确，去色罩效果良好</b></center><br>
+
+<p>对比了翻拍和扫描出来的底片图像后，会发现翻拍时如果向右曝光到光源溢出（当然底片部分是不能溢出的）的话，便不再能正确反映底片的染料密度了，向右曝光使色罩的变得更浅！</p>
+<p>考虑一个极端情况：片基溢出为白色，但是其他地方不会溢出，仍有色罩。于是取片基色（此时片基色为白色）再将其减去的方法自然就失效了。（该推导过程仍有大量瑕疵，还需进一步的研究）</p>
+<p>所以，在去色罩前，一定要保证图像正确反映了底片的面貌。在经过尝试之后，我发现以下方法既能保证准确还原，也能充分利用相机的动态范围：<strong>首先设置相机ISO为100，并缩小光圈到一个合适的挡位。试出能够使不经过底片的背景光源还原恰好不溢出的曝光值。然后酌情增加曝光时间，使得片基色恰好不溢出。记两个曝光值的差为Δ。在进入PS操作前，利用ACR调整曝光量，降低Δ曝光量。然后记得加载镜头校准文件。也可以在此时关掉锐化和降噪，留到最后再做。</strong></p>
+<h3 id="利用PS混合模式“划分”去色罩"><a href="#利用PS混合模式“划分”去色罩" class="headerlink" title="利用PS混合模式“划分”去色罩"></a>利用PS混合模式“划分”去色罩</h3><p>色罩简单的说（其实是我xjb说）就是在图像上多了一层橙色的滤光片，要消除这个滤镜的效果，可以用PS的图层混合模式“划分”来做到。（在彩色暗房中是使用色罩反色的蓝色滤光片）我还没有研究色罩究竟是如何作用于图像的色彩，也没有研究“划分”背后的数学运算。该方法来自<a target="_blank" rel="noopener" href="https://www.iamthejeff.com/post/32/the-best-way-to-color-correct-c-41-negative-film-scans"><strong>Jeff的这篇文章</strong></a>，去年我搜索“negative filme unmask”时还没有这条结果，但是两天前的再一次尝试让我有了新的发现。</p>
+<p>有了上面方法得到的正确的底片图像，我们就可以较好地去除色罩了。</p>
+<p>首先我们吸取片基色作为前景色，吸取的位置最好位于底片上两个曝光区域之间（注意有一些曝光特别充分的图像可能会使得图像边缘的区域也出现轻微的曝光，还有一些胶片的边缘会出现冲洗所导致的色罩颜色变化，取色时一定要避开这些地方）。</p>
+<p>然后我们新建图层，用油漆桶功能填充前景色（就是第一步吸取的片基色）。并把该图层的混合模式改为“划分”。</p>
+<img src="/uploads/loading.gif" data-original="/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E5%88%92%E5%88%86%E7%89%87%E5%9F%BA%E8%89%B2.jpg" class="">
+
+<center><b>划分后的结果</b></center><br>
+
+<p>现在你应该看到画图像颜色不再那么“橙”了，片基也变成了几乎中性的颜色。这时就可以进行反相操作了：新建曲线调整图层，选择点击“预设”的下拉菜单选择 “负片（RGB）”。（这个步骤也可以用 Ctrl+E，Ctrl+I完成，但是这样会合并图层）</p>
+<p>（建议将以上几个步骤存为动作，这样每次取完片基色就可以一步完成后续动作了）</p>
+<p>如果世间的一切都如童话般完美，此时我们会得到一个完美的正相。然而事实是我们的工作仅仅进行了一半：</p>
+<img src="/uploads/loading.gif" data-original="/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E5%8F%8D%E7%9B%B8.jpg" class="">
+
+<center><b>去色罩并反相的结果</b></center><br>
+
+<p>接下来，我们需要将底片上曝光的区域剪裁出来，其中不应包括片基或是其他东西。然后再一次新建曲线调整图层，按住Alt键点击“自动”按钮，这时你会看到弹出来的如下窗口：</p>
+<img src="/uploads/loading.gif" data-original="/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E8%87%AA%E5%8A%A8%E6%9B%B2%E7%BA%BF.png" class="">
+
+<center><b>自动曲线的高级选项</b></center><br>
+
+<p>选择“增强每通道的对比度”。这个操作实质上是重新设定图像的白点和黑点，所以如果你的照片中没有真正的白色和黑色，效果可能就没有那么好。然后勾选“对齐中性中间调”，并把“目标颜色和修剪”的两个修剪全都改成0（这样可以保留最多的细节）。点击确定，你会发现图像变得更加顺眼了一些。（在点击确定前勾选为存储为默认值，下次就不需要按Alt了）</p>
+<p>这一切的操作仍然是软件自动进行的，这就意味着它不可能适用于所有的图像。所以接下来我们需要一个人类的大脑。</p>
+<p>首先，你可能会觉得图像的对比度有些低，颜色发灰，甚至仍有大量的偏色。首先让我们打开先前的曲线调整，看看自动选项为我们做了什么：</p>
+<img src="/uploads/loading.gif" data-original="/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E6%9B%B2%E7%BA%BF.png" class="">
+
+<center><b>自动曲线的结果</b></center><br>
+
+<p>你可以尝试着将三个通道的曲线拉成S形。这可能会让你的图像看起来更加诡异，不过也有可能会更好看。如果很难保持颜色的准确，那就不管它了：</p>
+<img src="/uploads/loading.gif" data-original="/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E6%9B%B2%E7%BA%BF%E8%B0%83%E6%95%B4.png" class="">
+
+<center><b>我把曲线拉成了S形，这样对比度高一些，你可以按照自己喜欢的来。</b></center><br>
+
+<p>接下来新建色彩平衡调整图层。先观察你的图像并试着找出图像的什么地方偏了什么色，想想如何矫正，会是一个不错的思路。而不是对着九个滑块（阴影，中间调，高光分别三个颜色）经过短暂的不知所措后一顿乱调。</p>
+<p>希望你经过这两个调整的折腾后还能分得清红绿蓝三色：）</p>
+<img src="/uploads/loading.gif" data-original="/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E8%89%B2%E5%BD%A9%E5%B9%B3%E8%A1%A1.jpg" class="">
+
+<center><b>调节色彩平衡，让色调更加统一，颜色更加自然</b></center><br>
+
+<p>当你觉得调整得差不多了，已经很难有其他的改观之后，我想你可以再一次进入ACR，对图像进行最后的调整了。不过这时图像已经不是RAW了，所以经不起太大的折腾。首先微调白平衡，因为在上面的流程中我们一直没有进行白平衡的调整，要知道胶片也是有白平衡的。之后可以调整影调，但是相信负片惊人的宽容度会让你失去往回拉阴影和高光的兴趣——我们往往需要增强对比度。然后，就可以进行锐化，降噪之类的标准流程了。</p>
+<p>然后回到PS，这个时候，我们可以把胶片的片基露出来，提升一下13：</p>
+<img src="/uploads/loading.gif" data-original="/2019/02/12/%E4%B8%80%E4%B8%AA%E8%B4%9F%E7%89%87%E7%BF%BB%E6%8B%8D%E6%A0%A1%E8%89%B2%E9%9A%BE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/%E5%AE%8C%E6%88%90.jpg" class="">
+
+<center><b>翻拍一时爽，校色火葬场</b></center><br>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%83%B6%E7%89%87/" rel="tag"># 胶片</a>
+              <a href="/tags/%E6%A0%A1%E8%89%B2/" rel="tag"># 校色</a>
+              <a href="/tags/%E5%8E%BB%E8%89%B2%E7%BD%A9/" rel="tag"># 去色罩</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/04/16/%E5%9B%BD%E9%99%85%E5%A4%A9%E7%90%83%E5%8F%82%E8%80%83%E7%B3%BB%E7%BB%9F%E2%80%94%E2%80%94ICRS%20%E7%AE%80%E4%BB%8B/" rel="prev" title="国际天球参考系统 —— ICRS 简介">
+                  <i class="fa fa-chevron-left"></i> 国际天球参考系统 —— ICRS 简介
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/17/%E8%8D%B7%E5%85%B0%E7%BA%AA%E8%A1%8C%EF%BC%88%E4%B8%80%EF%BC%89/" rel="next" title="荷兰纪行（一）">
+                  荷兰纪行（一） <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  © 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CoolTowel</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> &amp; <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<script src="/bundle.js"></script><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        ;
+window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});;
+!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body></html>
